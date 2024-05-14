@@ -44,6 +44,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+app.UseStatusCodePagesWithReExecute("/error/{0}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

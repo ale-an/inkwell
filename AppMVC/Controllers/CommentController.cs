@@ -1,11 +1,11 @@
-﻿using BusinessLayer.Models;
+﻿using BusinessLayer.Models.Comment;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
 [Route("comments")]
-public class CommentController : ControllerBase
+public class CommentController : Controller
 {
     private readonly CommentService commentService;
 
@@ -15,32 +15,23 @@ public class CommentController : ControllerBase
     }
 
     [HttpPost("create")]
-    public void Create([FromBody] CommentModel model)
+    public IActionResult Create(CommentForm form)
     {
-        commentService.Create(model);
+        commentService.Create(form);
+        return RedirectToAction("Item", "Article", new { id = form.ArticleId });
     }
 
-    [HttpGet("list")]
-    public CommentModel[] List()
+    [HttpPost("update")]
+    public IActionResult Update([FromForm] CommentForm form)
     {
-        return commentService.GetAll();
+        commentService.Update(form);
+        return RedirectToAction("Item", "Article", new { id = form.ArticleId });
     }
 
-    [HttpGet("item/{id}")]
-    public CommentModel Item(int id)
-    {
-        return commentService.Get(id);
-    }
-
-    [HttpPut("update")]
-    public void Update([FromBody] CommentModel model)
-    {
-        commentService.Update(model);
-    }
-
-    [HttpDelete("delete/{id}")]
-    public void Delete(int id)
+    [HttpPost("delete/{articleId}/{id}")]
+    public IActionResult Delete(int articleId, int id)
     {
         commentService.Delete(id);
+        return RedirectToAction("Item", "Article", new { id = articleId });
     }
 }

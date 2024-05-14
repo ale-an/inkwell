@@ -6,47 +6,47 @@ namespace DataLayer.Repositories.Base;
 public class BaseRepository<T> : IRepository<T> where T : StandardEntity
 {
     protected readonly ApplicationContext Context;
-    private readonly DbSet<T> set;
+    protected readonly DbSet<T> Set;
 
     protected BaseRepository(ApplicationContext context)
     {
         Context = context;
-        set = context.Set<T>();
+        Set = context.Set<T>();
     }
 
     public void Create(T item)
     {
-        set.Add(item);
+        Set.Add(item);
         Context.SaveChanges();
     }
 
     public void Delete(T item)
     {
-        set.Remove(item);
+        Set.Remove(item);
         Context.SaveChanges();
     }
 
-    public T Get(int id)
+    public virtual T? Get(int id)
     {
-        return set.Find(id);
+        return Set.Find(id);
     }
 
     public IEnumerable<T> GetAll()
     {
-        return set;
+        return Set;
     }
 
     public void Update(T item)
     {
-        set.Update(item);
+        Set.Update(item);
         Context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        var entity = set.Find(id);
+        var entity = Set.Find(id);
         if (entity == null) return;
-        set.Remove(entity);
+        Set.Remove(entity);
         Context.SaveChanges();
     }
 }

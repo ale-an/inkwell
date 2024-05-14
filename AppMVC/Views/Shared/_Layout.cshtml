@@ -12,7 +12,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppMVC</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inkwell</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -20,13 +20,33 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="List">Статьи</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
+                    @if (User.HasClaim("Role", "Администратор"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List">Пользователи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="List">Роли</a>
+                        </li>
+                    }
                 </ul>
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="me-2">
+                    <span>@User.Identity.Name</span>
+                    <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Logout">Выход</a>
+                </div>
+            }
+            else
+            {
+                <div class="me-2">
+                    <a class="btn btn-outline-primary" asp-controller="Auth" asp-action="Login">Вход</a>
+                </div>
+            }
+
         </div>
     </nav>
 </header>
@@ -38,7 +58,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2024 - AppMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2024 Inkwell Vorozhtsova Alena
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

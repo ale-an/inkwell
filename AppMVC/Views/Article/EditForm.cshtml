@@ -1,0 +1,80 @@
+﻿@model BusinessLayer.Models.Article.ArticleForm
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    @if (Model.Id.HasValue)
+    {
+        <p class="fs-2">Редактировать статью</p>
+    }
+    else
+    {
+        <p class="fs-2">Добавить статью</p>
+    }
+</div>
+
+<form method="post" asp-controller="Article" asp-action="@(Model.Id.HasValue ? "Update" : "Create")">
+    <input type="hidden" value="@Model.Id" name="Id"/>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="title" placeholder="Введите заголовок" value="@Model.Title" name="Title"/>
+    </div>
+    <div class="mb-3">
+        <textarea type="text" class="form-control" id="content" rows="4" name="Content" placeholder="Введите текст">@Model.Content</textarea>
+    </div>
+    <div class="mb-3">
+        <div class="d-flex mb-3" id="tags">
+            @foreach (var tag in Model.Tags)
+            {
+                <div class="me-2">
+                    <input type="text" name="Tags[]" value="@tag" class="tag" readonly/>
+                </div>
+            }
+        </div>
+
+        <div class="input-group w-25">
+            <input type="text" class="form-control" id="tagName" placeholder="Введите тэг">
+            <button type="button" class="btn btn-outline-primary" onclick="addTag()">Добавить</button>
+        </div>
+    </div>
+
+    <button class="btn btn-outline-success" type="submit">Сохранить</button>
+    <a class="btn btn-outline-danger" asp-controller="Article" asp-action="List">Назад</a>
+</form>
+
+<script>
+function addTag(){
+   let tagInput = document.getElementById('tagName');
+    
+   let tagName =  tagInput.value;
+   
+   console.log(tagName);
+   
+   const divElement = document.createElement('div');
+   divElement.classList.add('me-2');
+    
+   const inputElement = document.createElement('input');
+   inputElement.classList.add('tag');
+   inputElement.value = tagName;
+   inputElement.type = 'text';
+   inputElement.name = 'Tags[]'
+   inputElement.readOnly = true;
+   
+   divElement.append(inputElement);
+   
+   document.getElementById('tags').append(divElement);
+ 
+   tagInput.value = "";
+    }
+</script>
+
+<style>
+    .tag{
+            text-align: center;
+            border-radius: 20px;
+            width: 75px;
+            background-color: aquamarine;
+            border: 0;
+    }
+</style>

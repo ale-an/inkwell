@@ -1,11 +1,11 @@
-﻿using BusinessLayer.Models;
+﻿using BusinessLayer.Models.User;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
 [Route("users")]
-public class UserController : ControllerBase
+public class UserController : Controller
 {
     private readonly UserService userService;
 
@@ -14,33 +14,55 @@ public class UserController : ControllerBase
         this.userService = userService;
     }
 
-    [HttpPost("create")]
-    public void Create([FromBody] UserModel model)
-    {
-        userService.Create(model);
-    }
-
     [HttpGet("list")]
-    public UserModel[] List()
+    public IActionResult List()
     {
-        return userService.GetAll();
+        var users = userService.GetAll();
+
+        var model = new UserListModel(users);
+
+        return View(model);
     }
 
     [HttpGet("item/{id}")]
-    public UserModel Item(int id)
+    public IActionResult Item(int id)
     {
-        return userService.Get(id);
+        var model = userService.Get(id);
+
+        return View(model);
     }
 
-    [HttpPut("update")]
-    public void Update([FromBody] UserModel model)
+    [HttpGet("create")]
+    public IActionResult Create()
     {
-        userService.Update(model);
+        return View("EditForm", new UserForm());
     }
 
-    [HttpDelete("delete/{id}")]
-    public void Delete(int id)
+    [HttpPost("create")]
+    public IActionResult Create(UserForm form)
+    {
+        userService.Create(form);
+        return RedirectToAction("List");
+    }
+
+    [HttpGet("update")]
+    public IActionResult Update(int id)
+    {
+        var model = userService.GetForUpdate(id);
+        return View("EditForm", model);
+    }
+
+    [HttpPost("update")]
+    public IActionResult Update([FromForm] UserForm itemModel)
+    {
+        userService.Update(itemModel);
+        return RedirectToAction("Item", new { itemModel.Id });
+    }
+
+    [HttpPost("delete/{id}")]
+    public IActionResult Delete(int id)
     {
         userService.Delete(id);
+        return RedirectToAction("List");
     }
 }

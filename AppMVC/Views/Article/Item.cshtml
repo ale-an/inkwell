@@ -1,0 +1,73 @@
+﻿@model BusinessLayer.Models.Article.ArticleItemModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    <p class="fs-2">@Model.Title</p>
+</div>
+
+<div class="mb-3">
+    <div class="d-flex mb-3" id="tags">
+        @foreach (var tag in Model.Tags)
+        {
+            <div class="me-2">
+                <input type="text" name="Tags[]" value="@tag" class="tag" readonly/>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mb-3">
+    <span>
+        @Model.Content
+    </span>
+</div>
+
+<div class="d-flex mb-3">
+    <div class="me-2">
+        <a class="btn btn-outline-primary" asp-controller="Article" asp-action="Update" asp-route-id="@Model.Id">Редактировать</a>
+    </div>
+    <div class="me-2">
+        <form method="post" asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id" onsubmit="return confirm('Вы точно хотите удалить статью ' + @Model.Title + '?');">
+            <button class="btn btn-outline-danger" type="submit">Удалить</button>
+        </form>
+    </div>
+    <div class="me-2">
+        <a class="btn btn-outline-secondary" asp-controller="Article" asp-action="List">Назад</a>
+    </div>
+</div>
+
+<form method="post" asp-controller="Comment" asp-action="Create">
+    <div class="d-flex mb-3">
+        <input type="hidden" name="ArticleId" value="@Model.Id"/>
+        <input type="text" class="form-control me-2 w-25" name="Text" placeholder="Введите комментарий"/>
+        <button class="btn btn-outline-success" type="submit">Сохранить</button>
+    </div>
+</form>
+
+<div>
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="card mb-3" style="width: 20rem">
+            <div class="card-body">
+                <h5 class="card-title">@comment.Author</h5>
+                <p class="card-text">@comment.Text</p>
+            </div>
+            <div class="card-footer">
+                @comment.Date.ToString("dd.MM.yyyy HH:mm:ss")
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .tag{
+            text-align: center;
+            border-radius: 20px;
+            width: 75px;
+            background-color: aquamarine;
+            border: 0;
+    }
+</style>

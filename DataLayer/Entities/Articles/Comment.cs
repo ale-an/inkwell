@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DataLayer.Entities.Users;
+﻿using DataLayer.Entities.Users;
 
 namespace DataLayer.Entities.Articles;
 

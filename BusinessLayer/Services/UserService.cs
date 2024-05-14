@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models;
+using BusinessLayer.Models.Auth;
+using BusinessLayer.Models.User;
 using DataLayer.Entities.Users;
 using DataLayer.Repositories;
 
@@ -16,40 +17,50 @@ public class UserService
         this.mapper = mapper;
     }
 
-    public void Create(UserModel model)
+    public void Create(UserForm itemModel)
     {
-        var user = mapper.Map<User>(model);
+        var user = mapper.Map<User>(itemModel);
         userRepository.Create(user);
     }
 
-    public UserModel[] GetAll()
+    public UserItemModel[] GetAll()
     {
         var users = userRepository.GetAll()
-            .Select(x => mapper.Map<UserModel>(x))
+            .Select(x => mapper.Map<UserItemModel>(x))
+            .OrderBy(x => x.Id)
             .ToArray();
 
         return users;
     }
 
-    public UserModel Get(int id)
+    public UserItemModel Get(int id)
     {
         var user = userRepository.Get(id);
 
-        var userModel = mapper.Map<UserModel>(user);
+        var userModel = mapper.Map<UserItemModel>(user);
 
         return userModel;
     }
 
-    public void Update(UserModel model)
+    public UserForm GetForUpdate(int id)
     {
-        var user = userRepository.Get(model.Id);
+        var user = userRepository.Get(id);
+
+        var userForm = mapper.Map<UserForm>(user);
+
+        return userForm;
+    }
+
+    public void Update(UserForm form)
+    {
+        var user = userRepository.Get(form.Id!.Value);
 
         if (user == null)
             return;
 
-        user.Name = model.Name;
-        user.Email = model.Email;
-        user.Password = model.Password;
+        user.Name = form.Name;
+        user.Email = form.Email;
+        user.Password = form.Password;
 
         userRepository.Update(user);
     }
@@ -57,5 +68,11 @@ public class UserService
     public void Delete(int id)
     {
         userRepository.Delete(id);
+    }
+
+    public void Create(RegisterForm form)
+    {
+        var user = mapper.Map<User>(form);
+        userRepository.Create(user);
     }
 }

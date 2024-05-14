@@ -1,0 +1,25 @@
+﻿@model BusinessLayer.Models.Role.RoleForm
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    @if (Model.Id.HasValue)
+    {
+        <p class="fs-2">Редактировать роль</p>
+    }
+    else
+    {
+        <p class="fs-2">Добавить роль</p>
+    }
+</div>
+
+<form method="post" asp-controller="Role" asp-action="@(Model.Id.HasValue ? "Update" : "Create")">
+    <input type="hidden" value="@Model.Id" name="Id"/>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="name" placeholder="Введите роль" value="@Model.Name" name="Name"/>
+    </div>
+    <button class="btn btn-outline-success" type="submit">Сохранить</button>
+    <a class="btn btn-outline-danger" asp-controller="Role" asp-action="List">Назад</a>
+</form>

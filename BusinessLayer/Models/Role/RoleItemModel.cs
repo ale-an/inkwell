@@ -1,6 +1,6 @@
-﻿namespace BusinessLayer.Models;
+﻿namespace BusinessLayer.Models.Role;
 
-public class RoleModel
+public class RoleItemModel
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLayer.Entities.Articles;
+﻿namespace DataLayer.Entities.Articles;
 
 public class Tag : StandardEntity
 {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models;
+using BusinessLayer.Models.Article;
 using DataLayer.Entities.Articles;
 using DataLayer.Repositories;
 
@@ -8,47 +8,63 @@ namespace BusinessLayer.Services;
 public class ArticleService
 {
     private readonly ArticleRepository articleRepository;
+    private readonly TagRepository tagRepository;
     private readonly IMapper mapper;
 
-    public ArticleService(IMapper mapper, ArticleRepository articleRepository)
+    public ArticleService(IMapper mapper, ArticleRepository articleRepository, TagRepository tagRepository)
     {
         this.articleRepository = articleRepository;
+        this.tagRepository = tagRepository;
         this.mapper = mapper;
     }
 
-    public void Create(ArticleModel model)
+    public void Create(ArticleForm form)
     {
-        var article = mapper.Map<Article>(model);
+        var article = mapper.Map<Article>(form);
         articleRepository.Create(article);
+
+        tagRepository.SaveIfNotExist(form.Tags, article);
     }
 
-    public ArticleModel[] GetAll()
+    public ArticleItemModel[] GetAll()
     {
         var articles = articleRepository.GetAll()
-            .Select(x => mapper.Map<ArticleModel>(x))
+            .Select(x => mapper.Map<ArticleItemModel>(x))
+            .OrderBy(x => x.Id)
             .ToArray();
 
         return articles;
     }
 
-    public ArticleModel Get(int id)
+    public ArticleItemModel Get(int id)
     {
         var article = articleRepository.Get(id);
 
-        var articleModel = mapper.Map<ArticleModel>(article);
+        var articleModel = mapper.Map<ArticleItemModel>(article);
 
         return articleModel;
     }
 
-    public void Update(ArticleModel model)
+    public ArticleForm GetForUpdate(int id)
     {
-        var article = articleRepository.Get(model.Id);
+        var article = articleRepository.Get(id);
+
+        var articleForm = mapper.Map<ArticleForm>(article);
+
+        return articleForm;
+    }
+
+    public void Update(ArticleForm form)
+    {
+        var article = articleRepository.Get(form.Id!.Value);
 
         if (article == null)
             return;
 
-        article.Title = model.Title;
-        article.Content = model.Content;
+        article.Title = form.Title;
+        article.Content = form.Content;
+
+        tagRepository.SaveIfNotExist(form.Tags, article);
 
         articleRepository.Update(article);
     }

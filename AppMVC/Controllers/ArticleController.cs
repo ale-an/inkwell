@@ -1,11 +1,11 @@
-﻿using BusinessLayer.Models;
+﻿using BusinessLayer.Models.Article;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
 [Route("articles")]
-public class ArticleController : ControllerBase
+public class ArticleController : Controller
 {
     private readonly ArticleService articleService;
 
@@ -14,33 +14,55 @@ public class ArticleController : ControllerBase
         this.articleService = articleService;
     }
 
-    [HttpPost("create")]
-    public void Create([FromBody] ArticleModel model)
-    {
-        articleService.Create(model);
-    }
-
     [HttpGet("list")]
-    public ArticleModel[] List()
+    public IActionResult List()
     {
-        return articleService.GetAll();
+        var articles = articleService.GetAll();
+
+        var model = new ArticleListModel(articles);
+
+        return View(model);
     }
 
     [HttpGet("item/{id}")]
-    public ArticleModel Item(int id)
+    public IActionResult Item(int id)
     {
-        return articleService.Get(id);
+        var model = articleService.Get(id);
+
+        return View(model);
     }
 
-    [HttpPut("update")]
-    public void Update([FromBody] ArticleModel model)
+    [HttpGet("create")]
+    public IActionResult Create()
     {
-        articleService.Update(model);
+        return View("EditForm", new ArticleForm());
     }
 
-    [HttpDelete("delete/{id}")]
-    public void Delete(int id)
+    [HttpPost("create")]
+    public IActionResult Create(ArticleForm form)
+    {
+        articleService.Create(form);
+        return RedirectToAction("List");
+    }
+
+    [HttpGet("update")]
+    public IActionResult Update(int id)
+    {
+        var model = articleService.GetForUpdate(id);
+        return View("EditForm", model);
+    }
+
+    [HttpPost("update")]
+    public IActionResult Update([FromForm] ArticleForm itemModel)
+    {
+        articleService.Update(itemModel);
+        return RedirectToAction("Item", new { itemModel.Id });
+    }
+
+    [HttpPost("delete/{id}")]
+    public IActionResult Delete(int id)
     {
         articleService.Delete(id);
+        return RedirectToAction("List");
     }
 }

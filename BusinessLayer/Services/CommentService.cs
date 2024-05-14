@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models;
+using BusinessLayer.Models.Comment;
 using DataLayer.Entities.Articles;
 using DataLayer.Repositories;
 
@@ -16,38 +16,41 @@ public class CommentService
         this.mapper = mapper;
     }
 
-    public void Create(CommentModel model)
+    public void Create(CommentForm form)
     {
-        var comment = mapper.Map<Comment>(model);
+        var comment = mapper.Map<Comment>(form);
+
+        comment.Date = DateTime.Now;
+
         commentRepository.Create(comment);
     }
 
-    public CommentModel[] GetAll()
+    public CommentItemModel[] GetAll()
     {
         var comments = commentRepository.GetAll()
-            .Select(x => mapper.Map<CommentModel>(x))
+            .Select(x => mapper.Map<CommentItemModel>(x))
             .ToArray();
 
         return comments;
     }
 
-    public CommentModel Get(int id)
+    public CommentItemModel Get(int id)
     {
         var comment = commentRepository.Get(id);
 
-        var commentModel = mapper.Map<CommentModel>(comment);
+        var commentModel = mapper.Map<CommentItemModel>(comment);
 
         return commentModel;
     }
 
-    public void Update(CommentModel model)
+    public void Update(CommentForm form)
     {
-        var comment = commentRepository.Get(model.Id);
+        var comment = commentRepository.Get(form.Id!.Value);
 
         if (comment == null)
             return;
 
-        comment.Text = model.Text;
+        comment.Text = form.Text;
 
         commentRepository.Update(comment);
     }

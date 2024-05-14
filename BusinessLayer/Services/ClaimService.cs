@@ -26,7 +26,7 @@ public class ClaimService
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Name, user.Email ?? string.Empty),
+            new(ClaimTypes.Name, user.Name ?? string.Empty),
             new("Role", role?.Name ?? string.Empty),
         };
 

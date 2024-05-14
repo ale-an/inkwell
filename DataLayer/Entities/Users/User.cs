@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataLayer.Entities.Users;
+﻿namespace DataLayer.Entities.Users;
 
 public class User : StandardEntity
 {

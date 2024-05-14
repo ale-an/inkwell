@@ -1,0 +1,25 @@
+﻿@model BusinessLayer.Models.Auth.LoginForm
+
+@{
+    ViewBag.Title = "Вход";
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    <p class="fs-2">Вход</p>
+</div>
+
+<form method="post" asp-controller="Auth" asp-action="Login">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="Email" placeholder="Введите адрес электронной почты" required/>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="Password" placeholder="Введите пароль" required/>
+    </div>
+    <div class="d-flex">
+        <button class="btn btn-outline-success me-2" type="submit">Войти</button>
+        <a class="btn btn-outline-danger" asp-controller="Article" asp-action="List">Назад</a>
+    </div>
+</form>

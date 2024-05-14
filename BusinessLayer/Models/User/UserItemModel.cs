@@ -1,6 +1,6 @@
-﻿namespace BusinessLayer.Models;
+﻿namespace BusinessLayer.Models.User;
 
-public class UserModel
+public class UserItemModel
 {
     public int Id { get; set; }
     public string? Name { get; set; }

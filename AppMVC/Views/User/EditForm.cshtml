@@ -1,0 +1,28 @@
+﻿@model BusinessLayer.Models.User.UserForm
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    @if (Model.Id.HasValue)
+    {
+        <p class="fs-2">Редактировать пользователя</p>
+    }
+    else
+    {
+        <p class="fs-2">Добавить пользователя</p>
+    }
+</div>
+
+<form method="post" asp-controller="User" asp-action="@(Model.Id.HasValue ? "Update" : "Create")">
+    <input type="hidden" value="@Model.Id" name="Id"/>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="name" placeholder="Введите имя пользователя" value="@Model.Name" name="name"/>
+    </div>
+    <div class="mb-3">
+        <input type="email" class="form-control" id="email" placeholder="Введите адрес электронной почты" value="@Model.Email" name="Email"/>
+    </div>
+    <button class="btn btn-outline-success" type="submit">Сохранить</button>
+    <a class="btn btn-outline-danger" asp-controller="User" asp-action="List">Назад</a>
+</form>

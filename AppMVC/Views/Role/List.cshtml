@@ -1,0 +1,29 @@
+﻿@model BusinessLayer.Models.Role.RoleListModel
+
+@{
+    ViewBag.Title = "Роли";
+    Layout = "_Layout";
+}
+
+<div class="d-flex mb-3">
+    <div class="me-3">
+        <p class="fs-2 fw-bold">Роли</p>
+    </div>
+    <div class="mt-2">
+        <a class="btn btn-outline-success" asp-controller="Role" asp-action="Create">
+            Добавить
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var role in Model.Roles)
+    {
+        <div class="card mb-3 me-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+                <a asp-controller="Role" asp-action="Item" asp-route-id="@role.Id" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    }
+</div>

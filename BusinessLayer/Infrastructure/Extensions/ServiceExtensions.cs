@@ -12,5 +12,6 @@ public static class ServiceExtensions
         services.AddScoped<CommentService>();
         services.AddScoped<TagService>();
         services.AddScoped<UserService>();
+        services.AddScoped<RoleService>();
     }
 }

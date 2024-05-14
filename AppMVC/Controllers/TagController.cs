@@ -1,17 +1,23 @@
 ﻿using BusinessLayer.Models;
+using BusinessLayer.Models.Tag;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
 [Route("tags")]
-public class TagController : ControllerBase
+public class TagController : Controller
 {
     private readonly TagService tagService;
 
     public TagController(TagService tagService)
     {
         this.tagService = tagService;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
     }
 
     [HttpPost("create")]

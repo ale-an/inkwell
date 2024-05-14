@@ -1,4 +1,4 @@
-﻿namespace BusinessLayer.Models;
+﻿namespace BusinessLayer.Models.Tag;
 
 public class TagModel
 {

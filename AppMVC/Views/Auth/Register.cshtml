@@ -1,0 +1,31 @@
+﻿@model BusinessLayer.Models.Auth.RegisterForm
+
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    <p class="fs-2">Регистрация</p>
+</div>
+
+<form method="post" asp-controller="Auth" asp-action="Register">
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="name" name="Name" placeholder="Введите имя" required/>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="Email" placeholder="Введите адрес электронной почты" required/>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="Password" placeholder="Введите пароль" required/>
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+        <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" placeholder="Введите пароль повторно" required/>
+    </div>
+    <button class="btn btn-outline-success" type="submit">Зарегистрироваться</button>
+    <a class="btn btn-outline-danger" asp-controller="Auth" asp-action="Login">Назад</a>
+</form>

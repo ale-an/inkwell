@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Models;
+using BusinessLayer.Models.Tag;
 using DataLayer.Entities.Articles;
 using DataLayer.Repositories;
 
