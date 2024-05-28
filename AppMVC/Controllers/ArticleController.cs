@@ -1,17 +1,22 @@
-﻿using BusinessLayer.Models.Article;
+﻿using AppMVC.Infrastructure.Filters;
+using BusinessLayer.Infrastructure.Validators;
+using BusinessLayer.Models.Article;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
+[LogActionFilter]
 [Route("articles")]
 public class ArticleController : Controller
 {
     private readonly ArticleService articleService;
+    private readonly ArticleValidator articleValidator;
 
-    public ArticleController(ArticleService articleService)
+    public ArticleController(ArticleService articleService, ArticleValidator articleValidator)
     {
         this.articleService = articleService;
+        this.articleValidator = articleValidator;
     }
 
     [HttpGet("list")]
@@ -41,6 +46,11 @@ public class ArticleController : Controller
     [HttpPost("create")]
     public IActionResult Create(ArticleForm form)
     {
+        articleValidator.Validate(form, ModelState);
+
+        if (!ModelState.IsValid)
+            return View("EditForm", form);
+
         articleService.Create(form);
         return RedirectToAction("List");
     }
@@ -53,10 +63,15 @@ public class ArticleController : Controller
     }
 
     [HttpPost("update")]
-    public IActionResult Update([FromForm] ArticleForm itemModel)
+    public IActionResult Update([FromForm] ArticleForm form)
     {
-        articleService.Update(itemModel);
-        return RedirectToAction("Item", new { itemModel.Id });
+        articleValidator.Validate(form, ModelState);
+
+        if (!ModelState.IsValid)
+            return View("EditForm", form);
+
+        articleService.Update(form);
+        return RedirectToAction("Item", new { form.Id });
     }
 
     [HttpPost("delete/{id}")]

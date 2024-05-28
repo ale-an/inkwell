@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Services;
+﻿using BusinessLayer.Infrastructure.Validators;
+using BusinessLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLayer.Infrastructure.Extensions;
@@ -13,5 +14,12 @@ public static class ServiceExtensions
         services.AddScoped<TagService>();
         services.AddScoped<UserService>();
         services.AddScoped<RoleService>();
+    }
+
+    public static void AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<RoleValidator>();
+        services.AddScoped<ArticleValidator>();
+        services.AddScoped<AuthValidator>();
     }
 }

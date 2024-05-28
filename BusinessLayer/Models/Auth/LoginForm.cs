@@ -1,4 +1,6 @@
-﻿namespace BusinessLayer.Models.Auth;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BusinessLayer.Models.Auth;
 
 public class LoginForm
 {

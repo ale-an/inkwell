@@ -5,27 +5,24 @@
     Layout = "_Layout";
 }
 
-<div class="mb-3">
-    <p class="fs-2">Регистрация</p>
-</div>
+<h2>@ViewBag.Title</h2>
 
 <form method="post" asp-controller="Auth" asp-action="Register">
     <div class="mb-3">
-        <label for="name" class="form-label">Имя</label>
-        <input type="text" class="form-control" id="name" name="Name" placeholder="Введите имя" required/>
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="Name" value="@Model.Name"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="Email" placeholder="Введите адрес электронной почты" required/>
+        <input type="email" class="form-control" id="email" name="Email" value="@Model.Email"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Пароль</label>
-        <input type="password" class="form-control" id="password" name="Password" placeholder="Введите пароль" required/>
+        <input type="password" class="form-control" id="password" name="Password"/>
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
-        <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" placeholder="Введите пароль повторно" required/>
-    </div>
-    <button class="btn btn-outline-success" type="submit">Зарегистрироваться</button>
-    <a class="btn btn-outline-danger" asp-controller="Auth" asp-action="Login">Назад</a>
+    <button type="submit" class="btn btn-outline-success">Зарегистрироваться</button>
+    <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index">Назад</a>
 </form>

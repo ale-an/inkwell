@@ -22,7 +22,7 @@ public class CommentController : Controller
     }
 
     [HttpPost("update")]
-    public IActionResult Update([FromForm] CommentForm form)
+    public IActionResult Update(CommentForm form)
     {
         commentService.Update(form);
         return RedirectToAction("Item", "Article", new { id = form.ArticleId });

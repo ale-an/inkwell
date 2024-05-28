@@ -19,9 +19,11 @@
     <input type="hidden" value="@Model.Id" name="Id"/>
     <div class="mb-3">
         <input type="text" class="form-control" id="title" placeholder="Введите заголовок" value="@Model.Title" name="Title"/>
+        <span asp-validation-for="Title"></span>
     </div>
     <div class="mb-3">
         <textarea type="text" class="form-control" id="content" rows="4" name="Content" placeholder="Введите текст">@Model.Content</textarea>
+        <span asp-validation-for="Content"></span>
     </div>
     <div class="mb-3">
         <div class="d-flex mb-3" id="tags">

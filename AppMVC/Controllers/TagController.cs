@@ -1,5 +1,4 @@
-﻿using BusinessLayer.Models;
-using BusinessLayer.Models.Tag;
+﻿using BusinessLayer.Models.Tag;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +12,6 @@ public class TagController : Controller
     public TagController(TagService tagService)
     {
         this.tagService = tagService;
-    }
-
-    public IActionResult Index()
-    {
-        return View();
     }
 
     [HttpPost("create")]

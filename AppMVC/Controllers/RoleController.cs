@@ -1,17 +1,22 @@
-﻿using BusinessLayer.Models.Role;
+﻿using AppMVC.Infrastructure.Filters;
+using BusinessLayer.Infrastructure.Validators;
+using BusinessLayer.Models.Role;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppMVC.Controllers;
 
+[LogActionFilter]
 [Route("roles")]
 public class RoleController : Controller
 {
     private readonly RoleService roleService;
+    private readonly RoleValidator roleValidator;
 
-    public RoleController(RoleService roleService)
+    public RoleController(RoleService roleService, RoleValidator roleValidator)
     {
         this.roleService = roleService;
+        this.roleValidator = roleValidator;
     }
 
     [HttpGet("list")]
@@ -41,6 +46,11 @@ public class RoleController : Controller
     [HttpPost("create")]
     public IActionResult Create(RoleForm form)
     {
+        roleValidator.Validate(form, ModelState);
+
+        if (!ModelState.IsValid)
+            return View("EditForm", form);
+
         roleService.Create(form);
         return RedirectToAction("List");
     }
@@ -53,10 +63,15 @@ public class RoleController : Controller
     }
 
     [HttpPost("update")]
-    public IActionResult Update([FromForm] RoleForm itemModel)
+    public IActionResult Update([FromForm] RoleForm form)
     {
-        roleService.Update(itemModel);
-        return RedirectToAction("Item", new { itemModel.Id });
+        roleValidator.Validate(form, ModelState);
+
+        if (!ModelState.IsValid)
+            return View("EditForm", form);
+
+        roleService.Update(form);
+        return RedirectToAction("Item", new { form.Id });
     }
 
     [HttpPost("delete/{id}")]

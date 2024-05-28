@@ -1,9 +1,13 @@
+using AppMVC.Infrastructure.Exceptions;
+using AppMVC.Infrastructure.MIddlewares;
 using BusinessLayer.Infrastructure.Extensions;
 using BusinessLayer.Mapping;
 using DataLayer;
 using DataLayer.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,7 @@ builder.Services.AddSingleton(mapper);
 
 builder.Services.AddRepositories();
 builder.Services.AddBusinessServices();
+builder.Services.AddValidators();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
@@ -24,6 +29,13 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Role", "Администратор"));
 });
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Host.UseNLog();
 
 builder.Services.AddControllersWithViews();
 
@@ -38,11 +50,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseExceptionHandler();
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
