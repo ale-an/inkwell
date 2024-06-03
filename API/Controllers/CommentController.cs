@@ -2,7 +2,7 @@
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppMVC.Controllers;
+namespace API.Controllers;
 
 [Route("comments")]
 public class CommentController : Controller

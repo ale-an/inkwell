@@ -2,7 +2,7 @@
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppMVC.Controllers;
+namespace API.Controllers;
 
 [Route("users")]
 public class UserController : Controller

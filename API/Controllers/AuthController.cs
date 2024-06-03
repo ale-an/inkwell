@@ -4,7 +4,7 @@ using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppMVC.Controllers;
+namespace API.Controllers;
 
 [Route("auth")]
 public class AuthController : Controller

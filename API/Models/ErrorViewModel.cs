@@ -1,4 +1,4 @@
-namespace AppMVC.Models;
+namespace API.Models;
 
 public class ErrorViewModel
 {

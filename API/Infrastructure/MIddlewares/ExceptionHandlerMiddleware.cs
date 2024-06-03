@@ -1,4 +1,4 @@
-﻿namespace AppMVC.Infrastructure.MIddlewares;
+﻿namespace API.Infrastructure.MIddlewares;
 
 public class ExceptionHandlerMiddleware
 {

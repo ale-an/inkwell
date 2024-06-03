@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AppMVC.Controllers;
+namespace API.Controllers;
 
 [Route("error")]
 public class ErrorController : Controller

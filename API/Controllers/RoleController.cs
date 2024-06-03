@@ -1,10 +1,10 @@
-﻿using AppMVC.Infrastructure.Filters;
+﻿using API.Infrastructure.Filters;
 using BusinessLayer.Infrastructure.Validators;
 using BusinessLayer.Models.Role;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppMVC.Controllers;
+namespace API.Controllers;
 
 [LogActionFilter]
 [Route("roles")]

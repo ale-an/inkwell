@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppMVC", "AppMVC\AppMVC.csproj", "{D019D9DB-F244-4591-9786-FF26925A5524}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{D019D9DB-F244-4591-9786-FF26925A5524}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{1D96C46E-BB6C-4C9A-ADE7-E29CED075565}"
 EndProject

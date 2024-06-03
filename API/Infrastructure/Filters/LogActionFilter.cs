@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace AppMVC.Infrastructure.Filters;
+namespace API.Infrastructure.Filters;
 
 public class LogActionFilter : ActionFilterAttribute
 {

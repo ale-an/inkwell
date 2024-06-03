@@ -1,5 +1,5 @@
-using AppMVC.Infrastructure.Exceptions;
-using AppMVC.Infrastructure.MIddlewares;
+using API.Infrastructure.Exceptions;
+using API.Infrastructure.MIddlewares;
 using BusinessLayer.Infrastructure.Extensions;
 using BusinessLayer.Mapping;
 using DataLayer;
@@ -37,6 +37,9 @@ builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -61,6 +64,12 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseStatusCodePagesWithReExecute("/error/{0}");
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.MapControllerRoute(
     name: "default",

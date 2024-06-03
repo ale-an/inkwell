@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 
-namespace AppMVC.Infrastructure.Exceptions;
+namespace API.Infrastructure.Exceptions;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {
